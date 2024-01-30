@@ -1,0 +1,183 @@
+import React from 'react';
+import '../components/order_style.css'
+import { useNavigate } from 'react-router-dom'
+import { HiShieldExclamation } from "react-icons/hi2";
+import { MdContentCopy } from "react-icons/md";
+import { IoCardOutline } from "react-icons/io5";
+import { RiMastercardFill } from "react-icons/ri";
+import { RiVisaFill } from "react-icons/ri";
+import axios from 'axios'
+
+
+
+
+const API_KEY = '149D1073FDB876653B5FE9B602A8F815FD5463C47F9E5DFB8EE5B872E87E492E'
+
+
+interface FormProps {
+  bank: string; 
+  sum: number;
+  order: string;
+  photo: string;
+  card: string;
+  client_number: 284278;
+}
+
+const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order }) => {
+  
+  const navigate = useNavigate();
+  
+
+  const handleButtonClick = () => {
+    navigate('/payment/bank/order-status');
+  } 
+
+
+  const handleButtonCancel = () => {
+    navigate('/payment/bank/order-status-failed');
+  } 
+
+
+  const handleButtonHelp = () => {
+    navigate('/payment/bank/order-status/help');
+  } 
+
+
+
+
+
+
+
+  async function fetchCard() {
+    const response = await fetch(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
+    const movies = await response.json();
+    return movies;
+  }
+  
+  
+
+  const gettingCard = () => {
+    fetchCard().then(movies => {
+      console.log(movies); // fetched movies
+    });
+    // const api_url =  axios.get(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
+    // const data =  api_url
+  }
+  console.log(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
+  
+  // axios.get(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`)
+  // .then(response => {
+  //   // Обработка успешного ответа
+  //   console.log(response.data);
+  // })
+  // .catch(error => {
+  //   if (error.response) {
+  //     // Запрос был выполнен, но сервер вернул статус отличный от 2xx
+  //     console.error('Server responded with an error status:', error.response.status);
+  //   } else if (error.request) {
+  //     // Запрос был сделан, но ответ не был получен
+  //     console.error('No response received from the server');
+  //   } else {
+  //     // Ошибка при настройке запроса
+  //     console.error('Error setting up the request:', error.message);
+  //   }
+  // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  return (
+    <div className="order-block">
+      <h1>Ваша заявка №{order}</h1>
+      <div className="order-container">
+          <div className="order-container-info">
+              <p>Оплатитите</p>
+              <h3>{sum} RUB</h3>
+              <p>на карту банка</p>
+              <h3>{bank}</h3>
+              <button onClick={gettingCard}></button>
+          </div>
+          <div className="order-container-cardblock">
+            <div className="order-container-payment">
+              {/* <img className="payment-photo"src="https://habrastorage.org/getpro/moikrug/uploads/company/100/006/341/2/logo/big_32156f1572916e1f7fb432e67e1defc2.png" alt="" /> */}
+              <IoCardOutline className='payment-photo' />
+              <h1>{card}</h1>
+              <button className='payment-btn' onClick={handleButtonCancel}> <MdContentCopy /> </button>
+            </div>
+            <div className="order-container-coment">
+              <div className="order-container-coment-logo">
+                <HiShieldExclamation/>
+                <RiVisaFill/>
+                <RiMastercardFill/> 
+              </div>
+              <div className="order-container-coment-text">
+                <p>Оплатитите точную сумму одним платежом!</p>
+                <p>Никаких комментариев к переводу писать НЕ НУЖНО.</p>
+                <p>Платежи от юридических лиц мы не принимаем, заявки оплаченные от юр. лица будут заблокированы.</p>
+              </div>
+            </div>
+          </div>
+        
+          <div className="order-container-btn">
+            <button onClick={handleButtonClick}type="button" className="btn-pay">Я оплатил(а)</button>
+            <button onClick={handleButtonCancel}type='button' className="btn-cancel">Отменить</button>
+            <button onClick={handleButtonHelp}type='button' className="btn-help">Помощь</button>
+          </div>
+          <div className="order-container-time">
+            <p>Произведите оплату в течении:</p>
+            <div>20:00</div>
+          </div>
+      </div>
+    </div>
+  );
+};
+
+
+const Order: React.FC = () => {
+
+
+  const storedData = localStorage.getItem('userdata');
+
+  
+  const storedObject = JSON.parse(storedData);
+  
+  
+  return (
+    <>
+    <App
+        sum={storedObject.summ}
+        client_number={284278}
+        bank='Тинькофф'
+        photo=''
+        card=''
+        order=''
+        />
+    </>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default Order;
