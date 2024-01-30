@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    command: npm start
+    ports:
+      - '3000:3000'
+    volumes:
+      - './node_modules:/node_modules'
+      - './src:/app/src'
