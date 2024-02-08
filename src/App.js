@@ -11,15 +11,14 @@ import Status from './components/Status.tsx'
 
 
 
-// const storedData = localStorage.getItem('userdata');
 
-// const storedObject = JSON.parse(storedData);
+localStorage.setItem('remainingTime', "12");           // Обнуляем таймер в Ордере 
 
 
 const App = () => {
   return (
     <Router>
-      {/* <Header /> */}
+      <Header /> 
       {/* Выбор проекта */}
       <Routes>
         <Route path="/" element= {<HomePage data_first='Сбербанк Инвестиции' 
@@ -31,6 +30,8 @@ const App = () => {
       photo_third =  'https://vectorseek.com/wp-content/uploads/2023/09/Gazprom-Icon-Logo-Vector.svg-.png' 
       link={true}
       photo_fourth = 'https://vsyapravda.net/storage/app/resources/resize/190_0_0_0_crop/img_39ffac94e53888550274aa2d7da9a0e1.png' 
+      text_start='Выберите проект' 
+
       />}  />
       </Routes>
       
@@ -67,14 +68,16 @@ const App = () => {
       link={false}
       text_style= {{fontWeight:'bold', fontFamily:  'Open Sans', fontSize: '24px',}}
       photo_third =  'https://habrastorage.org/getpro/moikrug/uploads/company/795/606/461/logo/big_d23a4d30d9fe49e79ebb105c36334f5a.jpg' 
-      photo_fourth = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/CBRF.png/800px-CBRF.png' 
+      photo_fourth = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/CBRF.png/800px-CBRF.png'
+      text_start='Выберите банк для оплаты' 
       />}/>
       </Routes>
       
 
       {/* Окно заявки */}
       <Routes>
-        <Route path='payment/bank/order' element={<Order/>}/>
+        <Route path='payment/bank/order' element={<Order
+        client_number={284278}/>}/>
       </Routes>
 
 
@@ -112,7 +115,7 @@ const App = () => {
       </Routes>
       
       
-      {/* <EndlPage /> */}
+      <EndlPage /> 
       
       
     </Router>

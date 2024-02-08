@@ -15,13 +15,14 @@ interface FormProps {
   photo_fourth: string; 
   link: boolean;
   text_style: object;
+  text_start: string;
 }
 
 
 
 
 const Home: React.FC<FormProps> = 
-({ text_style, link, data_first, data_second, data_third, data_fourth, photo_first, photo_second, photo_third, photo_fourth }) => { 
+({ text_start, text_style, link, data_first, data_second, data_third, data_fourth, photo_first, photo_second, photo_third, photo_fourth }) => { 
   const navigate = useNavigate();
   
   
@@ -63,7 +64,8 @@ const Home: React.FC<FormProps> =
   return (
     <> 
         <div className='main'>   
-        
+          <h1>{text_start}</h1>
+
           <div className="mainpage">
             <div className="main_company">
               <div className="main_company_content">

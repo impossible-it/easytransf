@@ -1,6 +1,9 @@
 import React from 'react';
 import '../components/status_style.css'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { error } from 'jquery';
+
 
 
 
@@ -15,10 +18,50 @@ interface FormProps {
 }
 
 const Order: React.FC<FormProps> = ({ order, order_status, order_info, photo, confirm_circle, confirm_mark, confirm_clock }) => {
+  
+
+ 
   const navigate = useNavigate();
+ 
+ 
   const onOrderClick = () => {
     navigate('/');
-  }  
+  }
+  
+
+  useEffect(() => {
+    // Этот код будет выполнен при монтировании компонента и при каждом обновлении
+    const fetchDataAndRefresh = async() => {
+      switch(order_status){
+        case "Оплата успешна":
+          console.log("1");
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 60000)                                   // Перебрасываем юзера на начальную страницу после успешной оплаты 
+          
+          break;
+        case "Заявка обрабатывается":
+          console.log("12");
+          setTimeout(() => {
+            window.location.href = '/payment/bank/order-status-confirmed'
+          }, 15000)                                                                 // // Перебрасываем юзера если Статус ордера confirmed 
+          break;
+        case "Оплата не прошла":
+          console.log("13");
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 60000)                                     // Перебрасываем юзера на начальную страницу после неуспешной оплаты 
+          break;
+      }
+    }
+    const intervalId = setInterval(fetchDataAndRefresh, 15000);
+    return () => {
+      // при выходе срабатывает код ниже//
+      
+    };
+  }, []);
+   
+
   return (
     <div className="status-block">
         

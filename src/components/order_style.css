@@ -5,7 +5,7 @@
     display: flex;
     flex-direction:row;
     justify-content: center;
-    height: 100vh;
+    height: 80vh;
     width: 100%;
     background-color: black;
     margin-top: 60px;    
@@ -40,7 +40,7 @@
     margin: 50px auto;
     padding: 20px;
     padding-bottom: 10px;
-    border-radius: 8px;
+    border-radius: 10px;
     text-align: flex-start;
     background-color: white;
     align-items: center;
@@ -55,15 +55,23 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    height: auto;
     /* background-color: rgb(68, 68, 68);
     border-radius: 10px;
     color: white;
     width: 70%; */
 }
 .order-container-info > p {
-    margin: 5px;   /* Оступ между словами */
-}
+    margin: 2px;   /* Оступ между словами */
+    margin-bottom: 20px;
 
+    font-size: 14px;
+}
+.order-container-info > h3 {
+    margin: 2px;   /* Оступ между словами */
+    margin-bottom: 20px;
+    font-size: 16px;
+}
 
 /* card block */
 .order-container-cardblock {
@@ -193,9 +201,12 @@
     font-weight: 800;
 }
 .order-container-time > div {
+    color: #C50000;
+    text-shadow: 0px 0px 1px black;
     font-size: 24px;
     font-weight: bold;
     margin-left: 10px;
+    line-height: 20px;
     
 }
 
@@ -266,7 +277,7 @@
 
 @media only screen and (max-width: 768px) {
     .order-block {
-        height: 140vh;
+        height: 80vh;
         
     }
 
@@ -279,6 +290,13 @@
 
     .order-container-info {
         flex-direction: row;
+        
+    }
+    .order-container-info > p {
+        font-size: 12px;
+    }
+    .order-container-info > h3{
+       font-size: 14px; 
     }
 
     .order-container-coment,
@@ -306,10 +324,15 @@
     }
 }
 
-@media only screen and (min-width: 320px) and (max-width: 518px) {
+@media only screen and (min-width: 320px) and (max-width: 545px) {
     .order-block {
-        height: 140vh;
-        
+        height: 80vh;
+    }
+    .order-container-info > p {
+        font-size: 8px;
+    }
+    .order-container-info > h3{
+       font-size: 10px; 
     }
     .order-container {
         max-height: 600px; 
@@ -346,6 +369,6 @@
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .order-block {
-        height: 130vh;        
+        height: 80vh;        
     }
 }

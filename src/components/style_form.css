@@ -5,7 +5,7 @@
     height: 95vh;
     width: 100%;
     background-color: black;
-    padding-top: 100px;
+    padding-top: 65px;
 }
 
 .block > h1 {
@@ -22,7 +22,7 @@
     border-right: 10px solid transparent;
     border-top: 10px solid white; 
     position: absolute;
-    margin-top: 10px;
+    margin: 20px 0;
     left: 50%;
     transform: translateX(-50%);
 }
